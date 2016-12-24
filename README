@@ -1,0 +1,7 @@
+This program reads in a file format that is more compact than the SQL for
+asl_practise requires, and spits out the SQL INSERT statement required.
+
+Just makes it a little easier to input words
+
+Usage:
+cabal run < example_file > words.sql
