@@ -1,14 +1,13 @@
 module Main(main) where
 
 import Text.Parsec.Indent (runIndentParserT, IndentParserT, withBlock)
-import Control.Monad.State.Lazy (evalState, State, modify, get, put, gets)
-import Text.Parsec (many1, digit, anyChar, string, space, spaces, endOfLine, eof, manyTill, many, try, char)
-import Control.Applicative ((<*>), (<|>), (<*), (*>))
-import Data.Functor ((<$>), void)
+import Control.Monad.State.Lazy (evalState, State, modify, put, gets)
+import Text.Parsec (many1, digit, anyChar, spaces, endOfLine, manyTill, char)
+import Control.Applicative ((<|>))
 import Data.List (intercalate)
-import Control.Monad ((=<<), when)
+import Control.Monad (when)
 import System.Exit (exitFailure)
-import System.IO (stderr, hPutStrLn)
+import System.IO (stderr, hPrint)
 
 type Counter = State Int
 
@@ -47,4 +46,4 @@ main = do
   parseResult <- (flip evalState undefined . runIndentParserT parser () "stdin") <$> getContents
   case parseResult of
     (Right items) -> putStrLn $ output items
-    (Left err) -> hPutStrLn stderr (show err) >> exitFailure
+    (Left err) -> hPrint stderr err >> exitFailure
