@@ -16,12 +16,13 @@ data Entry = Entry {listNumber :: String, description :: String} deriving (Show)
 
 wordLine = Entry <$> numberOptions <* spaces <* char ')' <* spaces <*> manyTill anyChar endOfLine <* spaces
   where
-  numberOptions = number <|> plus <|> same <|> assert
+  numberOptions = number <|> plus <|> missing <|> same <|> assert
   number = do
     str <- many1 digit
     put $ read str
     return str
   plus = char '+' *> modify (1+) *> gets show
+  missing = char '-' *> gets (\x -> show x ++ ".5")
   same = char '&' *> gets show
   assert = do
     char '='
